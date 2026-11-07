@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+    <title>Sanusi Philip (PhilzCodex) — Software Developer · Full-Stack Developer · Creative Thinker</title>
+    <meta
+      name="description"
+      content="Portfolio of Sanusi Philip (PhilzCodex), a passionate software developer, creator, full-stack developer, and creative thinker studying Information Technology at Redeemer's University."
+    />
+    <meta property="og:title" content="Sanusi Philip (PhilzCodex) — Software Developer & Full-Stack Creator" />
+    <meta property="og:description" content="Software Developer, Creative Thinker, Creator & Well-Trained Full-Stack Developer." />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("philz-theme");
+          if (
+            t === "light" ||
+            (!t &&
+              window.matchMedia &&
+              matchMedia("(prefers-color-scheme: light)").matches)
+          ) {
+            document.documentElement.classList.add("light");
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
