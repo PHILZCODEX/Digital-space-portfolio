@@ -20,9 +20,11 @@ import {
   Check,
   ChevronRight,
   X,
-  Menu
+  Menu,
+  GitBranch,
+  Wind
 } from "lucide-react";
-
+import { Analytics } from '@vercel/analytics/react';
 // Crisp custom brand SVGs (independent and guaranteed to render)
 function GithubIcon({ size = 17, ...props }) {
   return (
@@ -78,6 +80,26 @@ function YoutubeIcon({ size = 17, ...props }) {
     >
       <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
       <polygon points="10 15 15 12 10 9 10 15" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function LinkedinIcon({ size = 17, ...props }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect width="4" height="12" x="2" y="9" />
+      <circle cx="4" cy="4" r="2" />
     </svg>
   );
 }
@@ -162,6 +184,63 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Scroll reveal animation: flows all text from down to up
+  useEffect(() => {
+    const selectors = [
+      ".reveal-up",
+      ".sec-head",
+      ".about-hello",
+      ".about-body",
+      ".about-tags",
+      ".about-portrait-card",
+      ".timeline",
+      ".svc-row",
+      ".panel",
+      ".mini-head",
+      ".mini",
+      ".tool-card",
+      ".contact-head",
+      ".contact-sub",
+      ".email-direct-box",
+      ".contact-form-wrap",
+      ".foot-statement",
+      ".foot-grid"
+    ];
+
+    const elements = document.querySelectorAll(selectors.join(", "));
+    elements.forEach((el) => {
+      if (!el.classList.contains("reveal-up")) {
+        el.classList.add("reveal-up");
+      }
+    });
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.08,
+        rootMargin: "0px 0px -30px 0px"
+      }
+    );
+
+    elements.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 30 && rect.bottom > 0) {
+        setTimeout(() => el.classList.add("is-visible"), 60);
+      } else {
+        observer.observe(el);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   const handleCopyEmail = () => {
     navigator.clipboard.writeText("philipsanusi32@gmail.com");
     setCopiedEmail(true);
@@ -203,11 +282,13 @@ export default function App() {
   const tools = [
     { name: "React Native", tag: "Mobile Apps", desc: "Building cross-platform mobile apps for iOS and Android.", icon: <Smartphone size={20} /> },
     { name: "JavaScript", tag: "Core Logic", desc: "Modern ES6+, asynchronous programming, and DOM interfaces.", icon: <Terminal size={20} /> },
+    { name: "React", tag: "Web Applications", desc: "High-performance SPAs, reactive component state, and modern hooks.", icon: <Sparkles size={20} /> },
+    { name: "Tailwind CSS", tag: "Utility Styling", desc: "Rapid utility-first modern styling for sleek, responsive user interfaces.", icon: <Wind size={20} /> },
+    { name: "Git", tag: "Version Control", desc: "Distributed version control, branching workflows, and commit history tracking.", icon: <GitBranch size={20} /> },
+    { name: "GitHub", tag: "DevOps & Cloud", desc: "Collaborative Git workflows, releases, remote repositories, and CI/CD.", icon: <GithubIcon size={20} /> },
     { name: "Node.js", tag: "Backend", desc: "Scalable server-side systems, RESTful APIs, and microservices.", icon: <Database size={20} /> },
     { name: "Python", tag: "Backend & AI", desc: "Data processing, script automation, backend APIs, and logic.", icon: <Cpu size={20} /> },
-    { name: "GitHub", tag: "DevOps & VCS", desc: "Collaborative Git workflows, releases, and CI/CD pipelines.", icon: <GithubIcon size={20} /> },
     { name: "TypeScript", tag: "Type Safety", desc: "Robust type systems for large scalable web & app codebases.", icon: <Code2 size={20} /> },
-    { name: "React", tag: "Web Applications", desc: "High-performance SPAs, reactive component state, and modern hooks.", icon: <Sparkles size={20} /> },
     { name: "CSS3", tag: "Styling & Motion", desc: "Modern layouts, flexbox, grid, glassmorphism, and responsive design.", icon: <Palette size={20} /> },
     { name: "HTML5", tag: "Structure & SEO", desc: "Semantic markup, accessibility, modern standards, and metadata.", icon: <Layers size={20} /> }
   ];
@@ -295,6 +376,18 @@ export default function App() {
             aria-label="GitHub profile"
           >
             <GithubIcon size={17} />
+          </a>
+
+          {/* LinkedIn Button */}
+          <a
+            href="https://www.linkedin.com/in/philip-sanusi-410a89449"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-social-btn"
+            title="LinkedIn (Sanusi Philip)"
+            aria-label="LinkedIn profile"
+          >
+            <LinkedinIcon size={17} />
           </a>
 
           {/* Instagram Button */}
@@ -385,6 +478,16 @@ export default function App() {
             aria-label="GitHub"
           >
             <GithubIcon size={18} />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/philip-sanusi-410a89449"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-social-btn"
+            aria-label="LinkedIn"
+            title="LinkedIn"
+          >
+            <LinkedinIcon size={18} />
           </a>
           <a
             href="https://instagram.com"
@@ -517,6 +620,8 @@ export default function App() {
             <span className="marquee-item">React</span>
             <span className="marquee-item">HTML5</span>
             <span className="marquee-item">CSS3</span>
+            <span className="marquee-item">Tailwind CSS</span>
+            <span className="marquee-item">Git</span>
             <span className="marquee-item">GitHub</span>
             <span className="marquee-item">Backend Architecture</span>
 
@@ -532,6 +637,8 @@ export default function App() {
             <span className="marquee-item">React</span>
             <span className="marquee-item">HTML5</span>
             <span className="marquee-item">CSS3</span>
+            <span className="marquee-item">Tailwind CSS</span>
+            <span className="marquee-item">Git</span>
             <span className="marquee-item">GitHub</span>
             <span className="marquee-item">Backend Architecture</span>
           </div>
@@ -558,10 +665,6 @@ export default function App() {
 
                 <p className="about-body">
                   My coding journey began in <b>2023</b>. Although the process was challenging and I took a break at one point, my passion for technology brought me back, and since then, I’ve been more focused on improving my skills and building meaningful projects.
-                </p>
-
-                <p className="about-body">
-                  I specialize in building full-stack applications, developing web &amp; mobile solutions, engineering online marketplace systems, and crafting reliable software architectures. I’m always exploring new technologies, learning, and turning creative ideas into digital experiences as a creator and well-trained developer.
                 </p>
 
                 <p className="about-body" style={{ color: "var(--bone)", fontWeight: 500 }}>
@@ -952,6 +1055,16 @@ export default function App() {
 
                   <a
                     className="social"
+                    href="https://www.linkedin.com/in/philip-sanusi-410a89449"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>LinkedIn (Sanusi Philip)</span>
+                    <ArrowUpRight size={17} />
+                  </a>
+
+                  <a
+                    className="social"
                     href="https://instagram.com"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -1100,6 +1213,7 @@ export default function App() {
               <h4>Connect</h4>
               <a href="mailto:philipsanusi32@gmail.com">philipsanusi32@gmail.com</a>
               <a href="https://github.com/philipcodex" target="_blank" rel="noopener noreferrer">GitHub / philipcodex</a>
+              <a href="https://www.linkedin.com/in/philip-sanusi-410a89449" target="_blank" rel="noopener noreferrer">LinkedIn / Sanusi Philip</a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
               <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a>
               <p style={{ marginTop: "1rem", color: "var(--faint)", fontSize: "0.8rem" }}>
@@ -1120,7 +1234,9 @@ export default function App() {
             </span>
           </div>
         </div>
-      </footer>
+                 </footer>
+
+      <Analytics />
     </>
   );
 }

@@ -679,6 +679,7 @@ html.light .nav-social-btn:hover {
   position: relative;
   margin-top: 0.5rem;
   z-index: 4;
+  animation: heroElementFlowUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.38s both;
 }
 
 .hero-avatar-circle {
@@ -748,6 +749,29 @@ html.light .nav-social-btn:hover {
   box-shadow: 0 0 10px #10b981, 0 0 18px rgba(16, 185, 129, 0.7);
 }
 
+/* ─── TEXT & CONTENT FLOW-IN KEYFRAMES (DOWN TO UP) ───────── */
+@keyframes heroTextFlowUp {
+  0% {
+    transform: translateY(115%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes heroElementFlowUp {
+  0% {
+    transform: translateY(35px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 .hero-top {
   position: absolute;
   top: clamp(5.5rem, 12vh, 8rem);
@@ -758,6 +782,7 @@ html.light .nav-social-btn:hover {
   align-items: center;
   padding: 0 var(--pad);
   z-index: 2;
+  animation: heroElementFlowUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 
 .hero-name {
@@ -779,6 +804,14 @@ html.light .nav-social-btn:hover {
   font-size: clamp(3.6rem, 15vw, 11.5rem);
 }
 
+.hero-line:nth-child(1) span {
+  animation: heroTextFlowUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.hero-line:nth-child(2) span {
+  animation: heroTextFlowUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
 .hero-meta {
   display: flex;
   justify-content: space-between;
@@ -795,6 +828,7 @@ html.light .nav-social-btn:hover {
   color: var(--ash);
   max-width: 44ch;
   line-height: 1.55;
+  animation: heroElementFlowUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
 }
 
 .hero-sub b {
@@ -807,6 +841,71 @@ html.light .nav-social-btn:hover {
   gap: 0.85rem;
   align-items: center;
   flex-wrap: wrap;
+  animation: heroElementFlowUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+}
+
+/* ─── SCROLL-TRIGGERED REVEAL (FLOW FROM DOWN TO UP) ─────── */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(38px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delay classes for cascading flow */
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-delay-5 { transition-delay: 0.40s; }
+.reveal-delay-6 { transition-delay: 0.48s; }
+
+/* Automatic cascading stagger inside grids and lists */
+.about-grid > div:first-child .about-body:nth-of-type(1) { transition-delay: 0.08s; }
+.about-grid > div:first-child .about-body:nth-of-type(2) { transition-delay: 0.16s; }
+.about-grid > div:first-child .about-body:nth-of-type(3) { transition-delay: 0.24s; }
+.about-grid > div:first-child .about-body:nth-of-type(4) { transition-delay: 0.32s; }
+.about-grid > div:first-child .about-tags { transition-delay: 0.40s; }
+
+.svc-row:nth-child(1) { transition-delay: 0.05s; }
+.svc-row:nth-child(2) { transition-delay: 0.12s; }
+.svc-row:nth-child(3) { transition-delay: 0.19s; }
+.svc-row:nth-child(4) { transition-delay: 0.26s; }
+.svc-row:nth-child(5) { transition-delay: 0.33s; }
+
+.tool-card:nth-child(2) { transition-delay: 0.06s; }
+.tool-card:nth-child(3) { transition-delay: 0.12s; }
+.tool-card:nth-child(4) { transition-delay: 0.18s; }
+.tool-card:nth-child(5) { transition-delay: 0.24s; }
+.tool-card:nth-child(6) { transition-delay: 0.30s; }
+.tool-card:nth-child(7) { transition-delay: 0.36s; }
+.tool-card:nth-child(8) { transition-delay: 0.42s; }
+
+.mini:nth-child(1) { transition-delay: 0.06s; }
+.mini:nth-child(2) { transition-delay: 0.14s; }
+.mini:nth-child(3) { transition-delay: 0.22s; }
+
+/* Accessible motion reduction */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .hero-top,
+  .hero-line span,
+  .hero-avatar-badge,
+  .hero-sub,
+  .hero-actions {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* ─── INFINITE MARQUEE ──────────────────────────────────── */
